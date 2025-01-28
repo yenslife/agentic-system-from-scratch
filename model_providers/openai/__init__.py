@@ -1,4 +1,4 @@
-from llm import *
+from .llm import *
 
 __all__ = [
     "inference",
