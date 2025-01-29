@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from pydantic import BaseModel
 from openai import OpenAI
 from openai.types.chat import ChatCompletion, ChatCompletionMessage
 from dotenv import load_dotenv
@@ -7,8 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 client = OpenAI()
 
-@dataclass
-class CompletionResponse():
+class CompletionResponse(BaseModel):
     response: ChatCompletion
     message: ChatCompletionMessage
 
