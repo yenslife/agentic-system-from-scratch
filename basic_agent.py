@@ -12,8 +12,8 @@ from tools.fruit import (
     AVAILABLE_FUNCTIONS as functions
 )
 
-def run(messages: str, tools: list, model: str = "gpt-4o-mini") -> CompletionResponse:
-    response = completion(messages, tools, model)
+def run(messages: str, tools: list, model: str = "gpt-4o-mini", parallel_tool_calls=True) -> CompletionResponse:
+    response = completion(messages, tools, model, parallel_tool_calls)
 
     if not response.message.tool_calls:
         return response
@@ -33,7 +33,7 @@ def run(messages: str, tools: list, model: str = "gpt-4o-mini") -> CompletionRes
             "content": str(function_response)
         })
 
-    return run(messages, tools, model) # 反覆迭代
+    return run(messages, tools, model, parallel_tool_calls) # 反覆迭代
 
 if __name__ == "__main__":
     tools = [schema["get_remain_fruit"], schema["get_fruit_info"]]
@@ -42,5 +42,5 @@ if __name__ == "__main__":
     print("單純聊天的回覆",response.message)
     response_with_tool = run(tool_message, tools)
     print("偵測到需要工具的回覆", response_with_tool.message)
-    response_with_multiple_tools = run(multiple_tool_message, tools)
-    print("偵測到需要多個工具的回覆 (一次執行所有函式)", response_with_multiple_tools.message)
+    response_with_multiple_tools = run(multiple_tool_message, tools, parallel_tool_calls=False)
+    print("偵測到需要多個工具的回覆 (循序執行函式)", response_with_multiple_tools.message)

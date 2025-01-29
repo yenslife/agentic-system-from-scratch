@@ -11,12 +11,13 @@ class CompletionResponse(BaseModel):
     response: ChatCompletion
     message: ChatCompletionMessage
 
-def completion(messages, tools=None, model="gpt-4o-mini") -> CompletionResponse:
+def completion(messages, tools=None, model="gpt-4o-mini", parallel_tool_calls=True) -> CompletionResponse:
     """因為我覺得要一直用 choices[0] 很煩所以抽象了這一層"""
     response: ChatCompletion = client.chat.completions.create(
         model=model,
         messages=messages,
         tools=tools,
+        parallel_tool_calls=parallel_tool_calls
     )
     return CompletionResponse(
         response=response,
