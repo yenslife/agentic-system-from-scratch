@@ -13,4 +13,5 @@ def inference(messages, tools=None, model="gpt-4o-mini"):
     )
     return {
         "response": response,
+        "message": response.choices[0].message
     }
