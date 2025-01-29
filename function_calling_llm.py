@@ -6,44 +6,10 @@ from prompts.fruit import (
     tool_message,
     multiple_tool_message,
 )
+from tools.fruit import FRUIT_FUNCTION_SCHEMA as schema
 
 # 定義兩個工具
-tools = [
-    {
-        "type": "function",
-        "function": {
-            "name": "get_remain_fruit",
-            "description": "取得指定水果的剩餘數量",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "fruit_name": {
-                        "type": "string",
-                        "description": "指定水果名稱，可以是繁體中文或者是英文 e.g. 香蕉、banana",
-                    }
-                },
-                "required": ["fruit_name"],
-            },
-        },
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "get_fruit_info",
-            "description": "取得指定水果的詳細資訊",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "fruit_name": {
-                        "type": "string",
-                        "description": "指定水果名稱，可以是繁體中文或者是英文 e.g. 香蕉、banana",
-                    }
-                },
-                "required": ["fruit_name"],
-            },
-        },
-    }
-]
+tools = [schema["get_remain_fruit"], schema["get_fruit_info"]]
 
 response = inference(hello_message, tools)["message"]
 response_with_tool = inference(tool_message, tools)["message"]

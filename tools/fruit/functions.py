@@ -1,7 +1,3 @@
-from openai import OpenAI
-from dotenv import load_dotenv
-
-# tool function
 def get_remain_fruit(fruit_name: str):
     """回傳剩餘水果數量"""
     if fruit_name == "香蕉" or fruit_name == "banana":
