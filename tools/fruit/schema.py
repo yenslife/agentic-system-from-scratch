@@ -1,3 +1,8 @@
+from .functions import (
+    get_fruit_info,
+    get_remain_fruit
+)
+
 FRUIT_FUNCTION_SCHEMA = {
     "get_remain_fruit": {
         "type": "function",
@@ -33,4 +38,9 @@ FRUIT_FUNCTION_SCHEMA = {
             },
         },
     }
+}
+
+AVAILABLE_FUNCTIONS = {
+    "get_remain_fruit": get_remain_fruit,
+    "get_fruit_info": get_fruit_info,
 }
