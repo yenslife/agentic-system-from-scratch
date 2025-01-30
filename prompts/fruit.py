@@ -11,7 +11,9 @@ tool_message = [
 ]
 
 # 需要使用多個工具的 message
+MULTIPLE_TOOL_SYSTEM_PROMPT = "你是資料庫查詢機器人，使用繁體中文回答使用者的問題"
+MULTIPLE_TOOL_USER_PROMPT = "我想查詢蘋果的資料，順便看看香蕉剩下多少"
 multiple_tool_message = [
-    {"role": "system", "content": "你是資料庫查詢機器人，使用繁體中文回答使用者的問題"},
-    {"role": "user", "content": "我想查詢蘋果的資料，順便看看香蕉剩下多少"}
+    {"role": "system", "content": MULTIPLE_TOOL_SYSTEM_PROMPT},
+    {"role": "user", "content": MULTIPLE_TOOL_USER_PROMPT},
 ]
