@@ -7,3 +7,8 @@
 ## TODOs
 
 目前的實作，Agent 無法從 JSON Schema 得到工具的參數 description，可能可以透過定義 tools 的 docstring 來解決；Agent run 的 debug 有改善的空間
+
+- [ ] 引入評估驅動開發 (DSpy)
+- [ ] tool use 的參數 description 議題
+- [ ] 用 Python unit test 進行測試
+- [ ] 使用不那麼 toy 的 tools 來做一些「大事情」(引入 Weaviate)
