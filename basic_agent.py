@@ -15,12 +15,13 @@ from tools.fruit import (
 def run(messages: str, tools: list, model: str = "gpt-4o-mini", parallel_tool_calls=True) -> CompletionResponse:
     response = completion(messages, tools, model, parallel_tool_calls)
 
-    if not response.message.tool_calls:
+    tool_calls = response.message.tool_calls or []
+    if not tool_calls:
         return response
 
     print(f"Use Tool!!")
     messages.append(response.message) # must append model function call message
-    for tool in response.message.tool_calls:
+    for tool in tool_calls:
         function_name = tool.function.name
         function_args = json.loads(tool.function.arguments)
         function_to_call = functions[function_name]
@@ -38,7 +39,7 @@ def run(messages: str, tools: list, model: str = "gpt-4o-mini", parallel_tool_ca
 if __name__ == "__main__":
     tools = [schema["get_remain_fruit"], schema["get_fruit_info"]]
 
-    response = run(hello_message, tools)
+    response = run(hello_message, None)
     print("單純聊天的回覆",response.message)
     response_with_tool = run(tool_message, tools)
     print("偵測到需要工具的回覆", response_with_tool.message)
