@@ -11,7 +11,8 @@ if __name__ == "__main__":
         name="水果小助手",
         instructions=MULTIPLE_TOOL_SYSTEM_PROMPT,
         tools=[get_fruit_info, get_remain_fruit],
-        model="gpt-4o-mini"
+        model="ollama:qwen2.5",
+        parallel_tool_calls=True
     )
 
     respnose = fruit_agent.run(MULTIPLE_TOOL_USER_PROMPT, debug=False)

@@ -5,7 +5,8 @@ from typing import Callable, Any
 from pydantic import BaseModel
 from rich import print
 
-from model_providers.openai import completion, CompletionResponse
+from model_providers import get_completion
+from model_providers.type import CompletionResponse
 
 class Agent(BaseModel):
     """
@@ -14,7 +15,7 @@ class Agent(BaseModel):
     name: str
     instructions: str
     tools: list[Callable] = []
-    model: str = "gpt-4o-mini"
+    model: str = "openai:gpt-4o-mini"
     parallel_tool_calls: bool = True
 
     def run(self, user_input: str, debug: bool = False) -> CompletionResponse:
@@ -27,7 +28,10 @@ class Agent(BaseModel):
         return self._run(messages, tools_schema, debug)
 
     def _run(self, messages: str, tools_schema: list[dict], debug: bool = False) -> CompletionResponse:
-        response = completion(messages, tools_schema, self.model, self.parallel_tool_calls)
+        provider, model_name = self._model_parser(self.model)
+        completion_func = get_completion(provider)
+        
+        response = completion_func(messages, tools_schema, model_name, self.parallel_tool_calls)
 
         tool_calls = response.message.tool_calls or []
         if not tool_calls:
@@ -93,3 +97,11 @@ class Agent(BaseModel):
                 "required": required
             },
         }
+
+    def _model_parser(self, model: str) -> tuple[str, str]:
+        """Parse the model string into provider and model name."""
+        try:
+            provider, model_name = model.split(":", 1)
+            return provider, model_name
+        except ValueError:
+            raise ValueError(f"Invalid model format: {model}. Expected format: 'provider:model_name'")
